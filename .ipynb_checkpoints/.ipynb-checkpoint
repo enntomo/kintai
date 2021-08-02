@@ -1,0 +1,635 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "f9292599-4dd8-40fd-befa-be6e538aaadf",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting gspread\n",
+      "  Downloading gspread-4.0.0-py3-none-any.whl (29 kB)\n",
+      "Collecting google-auth-oauthlib>=0.4.1\n",
+      "  Downloading google_auth_oauthlib-0.4.5-py2.py3-none-any.whl (18 kB)\n",
+      "Collecting google-auth>=1.12.0\n",
+      "  Downloading google_auth-1.34.0-py2.py3-none-any.whl (152 kB)\n",
+      "\u001b[K     |████████████████████████████████| 152 kB 4.2 MB/s eta 0:00:01\n",
+      "\u001b[?25hCollecting rsa<5,>=3.1.4\n",
+      "  Using cached rsa-4.7.2-py3-none-any.whl (34 kB)\n",
+      "Requirement already satisfied: six>=1.9.0 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from google-auth>=1.12.0->gspread) (1.16.0)\n",
+      "Collecting pyasn1-modules>=0.2.1\n",
+      "  Using cached pyasn1_modules-0.2.8-py2.py3-none-any.whl (155 kB)\n",
+      "Collecting cachetools<5.0,>=2.0.0\n",
+      "  Using cached cachetools-4.2.2-py3-none-any.whl (11 kB)\n",
+      "Requirement already satisfied: setuptools>=40.3.0 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from google-auth>=1.12.0->gspread) (52.0.0.post20210125)\n",
+      "Collecting requests-oauthlib>=0.7.0\n",
+      "  Using cached requests_oauthlib-1.3.0-py2.py3-none-any.whl (23 kB)\n",
+      "Collecting pyasn1<0.5.0,>=0.4.6\n",
+      "  Using cached pyasn1-0.4.8-py2.py3-none-any.whl (77 kB)\n",
+      "Collecting oauthlib>=3.0.0\n",
+      "  Using cached oauthlib-3.1.1-py2.py3-none-any.whl (146 kB)\n",
+      "Requirement already satisfied: requests>=2.0.0 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from requests-oauthlib>=0.7.0->google-auth-oauthlib>=0.4.1->gspread) (2.26.0)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from requests>=2.0.0->requests-oauthlib>=0.7.0->google-auth-oauthlib>=0.4.1->gspread) (2021.5.30)\n",
+      "Requirement already satisfied: charset-normalizer~=2.0.0 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from requests>=2.0.0->requests-oauthlib>=0.7.0->google-auth-oauthlib>=0.4.1->gspread) (2.0.0)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from requests>=2.0.0->requests-oauthlib>=0.7.0->google-auth-oauthlib>=0.4.1->gspread) (3.1)\n",
+      "Requirement already satisfied: urllib3<1.27,>=1.21.1 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from requests>=2.0.0->requests-oauthlib>=0.7.0->google-auth-oauthlib>=0.4.1->gspread) (1.26.6)\n",
+      "Installing collected packages: pyasn1, rsa, pyasn1-modules, oauthlib, cachetools, requests-oauthlib, google-auth, google-auth-oauthlib, gspread\n",
+      "Successfully installed cachetools-4.2.2 google-auth-1.34.0 google-auth-oauthlib-0.4.5 gspread-4.0.0 oauthlib-3.1.1 pyasn1-0.4.8 pyasn1-modules-0.2.8 requests-oauthlib-1.3.0 rsa-4.7.2\n",
+      "Collecting oauth2client\n",
+      "  Downloading oauth2client-4.1.3-py2.py3-none-any.whl (98 kB)\n",
+      "\u001b[K     |████████████████████████████████| 98 kB 2.0 MB/s eta 0:00:01\n",
+      "\u001b[?25hRequirement already satisfied: six>=1.6.1 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from oauth2client) (1.16.0)\n",
+      "Requirement already satisfied: pyasn1-modules>=0.0.5 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from oauth2client) (0.2.8)\n",
+      "Collecting httplib2>=0.9.1\n",
+      "  Downloading httplib2-0.19.1-py3-none-any.whl (95 kB)\n",
+      "\u001b[K     |████████████████████████████████| 95 kB 2.1 MB/s eta 0:00:01\n",
+      "\u001b[?25hRequirement already satisfied: rsa>=3.1.4 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from oauth2client) (4.7.2)\n",
+      "Requirement already satisfied: pyasn1>=0.1.7 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from oauth2client) (0.4.8)\n",
+      "Requirement already satisfied: pyparsing<3,>=2.4.2 in /Users/endoutomoya/opt/anaconda3/envs/machine-learning/lib/python3.8/site-packages (from httplib2>=0.9.1->oauth2client) (2.4.7)\n",
+      "Installing collected packages: httplib2, oauth2client\n",
+      "Successfully installed httplib2-0.19.1 oauth2client-4.1.3\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install gspread\n",
+    "!pip install oauth2client"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e8b11eda-6ea9-409c-a054-9ce733e4b266",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "!pip install pandas"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "a58498e2-dd69-42c7-a9b4-2b693ac1f417",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "from datetime import datetime\n",
+    "import gspread\n",
+    "\n",
+    "from oauth2client.service_account import ServiceAccountCredentials"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "6cb316bd-4bca-4791-8f43-989c3916dce8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def auth():\n",
+    "    SP_CREDENTIAL_FILE = 'job.json'\n",
+    "    SP_SCOPE = [\n",
+    "        'https://spreadsheets.google.com/feeds',\n",
+    "        'https://www.googleapis.com/auth/drive'\n",
+    "    ]\n",
+    "\n",
+    "    SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'\n",
+    "    SP_SHEET = 'timesheet'\n",
+    "\n",
+    "    credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)\n",
+    "    gc = gspread.authorize(credentials)\n",
+    "\n",
+    "    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)\n",
+    "    return worksheet"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "77a56403-b1d5-455d-b2f3-94e08aa4278b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "worksheet =auth()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "301eacc6-965c-4f9f-a3a7-19adfaa02884",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<Worksheet 'timesheet' id:0>"
+      ]
+     },
+     "execution_count": 40,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "worksheet"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d1a41208-1452-43ff-a87f-8e5f98ae2f5e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "debdc7d8-bd53-4933-acb3-aa581565df79",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "d6d4ec1a-7c14-4bcd-b2d8-4a5d031b6fa7",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>日付</th>\n",
+       "      <th>出勤時間</th>\n",
+       "      <th>退勤時間</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>2021/08/03</td>\n",
+       "      <td>0:08</td>\n",
+       "      <td>0:00</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "           日付  出勤時間  退勤時間\n",
+       "0  2021/08/03  0:08  0:00"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df = pd.DataFrame(worksheet.get_all_records())\n",
+    "df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "0bbb87ea-dfd3-413f-a41c-c139f163a3c0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "timestamp = datetime.now()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "ca0b1f94-8170-4a36-985f-975c891211b8",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'2021/08/03'"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "date = timestamp.strftime('%Y/%m/%d')\n",
+    "date"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "3930dd2b-52e7-4e21-b995-50a985b87863",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'00:05'"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "punch_in = timestamp.strftime('%H:%M')\n",
+    "punch_in"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "a737dcda-7535-4c60-9e72-0a2f9147cc88",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>日付</th>\n",
+       "      <th>出勤時間</th>\n",
+       "      <th>退勤時間</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>2021/08/03</td>\n",
+       "      <td>0:08</td>\n",
+       "      <td>0:00</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>2021/08/03</td>\n",
+       "      <td>00:05</td>\n",
+       "      <td>00:00</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2021/08/03</td>\n",
+       "      <td>00:05</td>\n",
+       "      <td>00:00</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "           日付   出勤時間   退勤時間\n",
+       "0  2021/08/03   0:08   0:00\n",
+       "1  2021/08/03  00:05  00:00\n",
+       "2  2021/08/03  00:05  00:00"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df = df.append({'日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)\n",
+    "df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "499eb06e-7db0-4650-995a-a14704123296",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'spreadsheetId': '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc',\n",
+       " 'updatedRange': 'timesheet!A1:C4',\n",
+       " 'updatedRows': 4,\n",
+       " 'updatedColumns': 3,\n",
+       " 'updatedCells': 12}"
+      ]
+     },
+     "execution_count": 42,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "worksheet.update([df.columns.values.tolist()] + df.values.tolist())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "ea78c615-ebb9-4933-a2b3-f66d76900532",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "timestamp = datetime.now()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "18acf009-00b1-4419-b9bb-26c8abf99a0b",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'00:26'"
+      ]
+     },
+     "execution_count": 47,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "punch_out = timestamp.strftime('%H:%M')\n",
+    "punch_out"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "bc1cfb21-b631-416b-b245-8cef01e66da8",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>日付</th>\n",
+       "      <th>出勤時間</th>\n",
+       "      <th>退勤時間</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>2021/08/03</td>\n",
+       "      <td>0:08</td>\n",
+       "      <td>0:00</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>2021/08/03</td>\n",
+       "      <td>00:05</td>\n",
+       "      <td>00:00</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2021/08/03</td>\n",
+       "      <td>00:05</td>\n",
+       "      <td>00:26</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "           日付   出勤時間   退勤時間\n",
+       "0  2021/08/03   0:08   0:00\n",
+       "1  2021/08/03  00:05  00:00\n",
+       "2  2021/08/03  00:05  00:26"
+      ]
+     },
+     "execution_count": 53,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.iloc[-1, 2] = punch_out\n",
+    "df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "id": "f3f7ebcf-eff1-4b5d-bc29-5149d6fbb5d8",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'spreadsheetId': '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc',\n",
+       " 'updatedRange': 'timesheet!A1:C4',\n",
+       " 'updatedRows': 4,\n",
+       " 'updatedColumns': 3,\n",
+       " 'updatedCells': 12}"
+      ]
+     },
+     "execution_count": 54,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "worksheet.update([df.columns.values.tolist()] + df.values.tolist())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9d98cfe3-6eeb-4db2-b85f-7290d5e436bc",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "624b1fd8-deb5-442a-93cd-5554b23e5b18",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "d1031e72-dace-4bfb-8ebd-bd852c608e13",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "from datetime import datetime\n",
+    "import gspread\n",
+    "\n",
+    "from oauth2client.service_account import ServiceAccountCredentials\n",
+    "\n",
+    "def auth():\n",
+    "    SP_CREDENTIAL_FILE = 'job.json'\n",
+    "    SP_SCOPE = [\n",
+    "        'https://spreadsheets.google.com/feeds',\n",
+    "        'https://www.googleapis.com/auth/drive'\n",
+    "    ]\n",
+    "\n",
+    "    SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'\n",
+    "    SP_SHEET = 'timesheet'\n",
+    "\n",
+    "    credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)\n",
+    "    gc = gspread.authorize(credentials)\n",
+    "\n",
+    "    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)\n",
+    "    return worksheet\n",
+    "\n",
+    "#出勤\n",
+    "def punch_in():\n",
+    "    worksheet =auth()\n",
+    "    df = pd.DataFrame(worksheet.get_all_records())\n",
+    "\n",
+    "    timestamp = datetime.now()\n",
+    "    date = timestamp.strftime('%Y/%m/%d')\n",
+    "    punch_in = timestamp.strftime('%H:%M')\n",
+    "\n",
+    "    df = df.append({'日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)\n",
+    "    worksheet.update([df.columns.values.tolist()] + df.values.tolist())\n",
+    "\n",
+    "    print('出勤完了しました！')\n",
+    "#退勤\n",
+    "def punch_out():\n",
+    "    worksheet =auth()\n",
+    "    df = pd.DataFrame(worksheet.get_all_records())\n",
+    "    \n",
+    "    timestamp = datetime.now()\n",
+    "    punch_out = timestamp.strftime('%H:%M')\n",
+    "\n",
+    "    df.iloc[-1, 2] = punch_out\n",
+    "    worksheet.update([df.columns.values.tolist()] + df.values.tolist())\n",
+    "    print('退勤しました！')\n",
+    "\n",
+    "\n",
+    "        "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "id": "ce9d9221-931f-4914-899d-b380f62609e9",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "出勤完了しました！\n"
+     ]
+    }
+   ],
+   "source": [
+    "punch_in()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "id": "4cff4540-ba73-4b1e-b4d6-a97747358135",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "退勤しました！\n"
+     ]
+    }
+   ],
+   "source": [
+    "punch_out()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e34fa2b9-1f08-4c56-9540-51751616d476",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
