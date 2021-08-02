@@ -96,17 +96,9 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text == '出勤':
-        punch_in()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='出勤完了しました！'))
-    elif event.message.text == '退勤':
-        punch_out()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='退勤しました！')
-    
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=event.message.text))
 
 
 if __name__ == "__main__":
