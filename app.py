@@ -18,6 +18,16 @@ import gspread
 
 from oauth2client.service_account import ServiceAccountCredentials
 
+def SHEET():
+    if '遠藤' in event.message.text
+        SP_SHEET = '遠藤'
+    elif '長崎' in event.message.text
+        SP_SHEET = '長崎'
+    elif '戸部' in event.message.text
+        SP_SHEET = '戸部'
+    elif '荒井' in event.message.text
+        SP_SHEET = '荒井'
+
 def auth():
     SP_CREDENTIAL_FILE = 'job.json'
     SP_SCOPE = [
@@ -26,8 +36,7 @@ def auth():
     ]
 
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
-    if event.message.text in 遠藤:
-        SP_SHEET = '遠藤'
+    SP_SHEET = SHEET()
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
