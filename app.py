@@ -27,7 +27,7 @@ def auth():
     ]
     
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
-    SP_SHEET = 'timesheet'
+    SP_SHEET = ''
     
     if '遠藤' in event.message.text:
         SP_SHEET = '遠藤'
