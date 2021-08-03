@@ -18,6 +18,7 @@ import gspread
 
 from oauth2client.service_account import ServiceAccountCredentials
 
+@handler.add(MessageEvent, message=TextMessage)
 def SHEET(event):
     if '遠藤' in event.message.text
         SP_SHEET = '遠藤'
