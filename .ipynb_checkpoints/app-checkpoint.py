@@ -38,7 +38,7 @@ def auth():
     ]
 
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
-    SP_SHEET = SHEET()
+    SP_SHEET = SHEET
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
@@ -109,6 +109,15 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if '出勤' in event.message.text:
+        if '遠藤' in event.message.text:
+            SHEET = '遠藤'
+        elif '長崎' in event.message.text:
+            SHEET = '長崎'
+        elif '戸部' in event.message.text:
+            SHEET = '戸部'
+        elif '荒井' in event.message.text:
+            SHEET = '荒井'
+    
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
