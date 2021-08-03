@@ -1,23 +1,11 @@
-from flask import Flask, request, abort
-
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-)
-
+import pandas as pd
+from datetime import datetime, timedelta, timezone
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 import os
 
-import pandas as pd
-from datetime import datetime
-import gspread
-
-from oauth2client.service_account import ServiceAccountCredentials
-
+# タイムゾーンの生成
+JST = timezone(timedelta(hours=+9), 'JST')
 
 def auth():
     SP_CREDENTIAL_FILE = 'secret.json'
@@ -58,49 +46,28 @@ def punch_out():
     df.iloc[-1, 2] = punch_out
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
+from flask import Flask, request, abort
 
-#出勤
-def punch_in():
-    worksheet =auth()
-    df = pd.DataFrame(worksheet.get_all_records())
-
-    timestamp = datetime.now()
-    date = timestamp.strftime('%Y/%m/%d')
-    punch_in = timestamp.strftime('%H:%M')
-
-    df = df.append({'日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
-    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
-
-    print('出勤完了しました！')
-#退勤
-def punch_out():
-    worksheet =auth()
-    df = pd.DataFrame(worksheet.get_all_records())
-    
-    timestamp = datetime.now()
-    punch_out = timestamp.strftime('%H:%M')
-
-    df.iloc[-1, 2] = punch_out
-    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
-    print('退勤しました！')
-
-
-        
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+from linebot.exceptions import (
+    InvalidSignatureError
+)
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage,
+)
 
 app = Flask(__name__)
 
-YOUR_CHANNEL_ACCESS_TOKEN = 'xaD08TJKexbs26kL74LkJWmkCYPbhI+FusQz9Nt2sl4tFxxSeHRNUf2Y2/Y8dUpC896jf216rsAgA0y5A8oiITm8Ze7LLtGZ8/IRhHHYL/k3+jepuf28lDMlwFEmkrb/v3at7UFRgHeiZZ2Rw69iSQdB04t89/1O/w1cDnyilFU='
-YOUR_CHANNEL_SECRET = '734eb0b218d1ad81df88d46495d05ba0'
-
-line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
-handler = WebhookHandler(YOUR_CHANNEL_SECRET)
-
+line_bot_api = LineBotApi(os.getenv('YOUR_CHANNEL_ACCESS_TOKEN'))
+handler = WebhookHandler(os.getenv('YOUR_CHANNEL_SECRET'))
 
 @app.route("/")
 def hello_world():
-    return "hello world"
+  　　return "hello_world"
 
-@app.route("/callback", methods=['POST'])
+@app.route("/callback", methods=["GET", "POST"])
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
@@ -121,25 +88,19 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if '出勤' in event.message.text :
+    if '出勤' in event.message.text:
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='出勤完了しました！'))
-       
-    elif '退勤' in event.message.text:
+            TextSendMessage(text="出勤登録完了しました！今日もがんばりましょう！"))
+    elif '退勤' in  event.message.text:
         punch_out()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='退勤しました！'))
+            TextSendMessage(text="退勤登録完了しました！お疲れ様でした"))
     else: pass
-        
+
+
 if __name__ == "__main__":
     port = os.getenv("PORT")
     app.run(host="0.0.0.0", port=port)
-    
-    
-    
-
-
-
