@@ -20,13 +20,13 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 @handler.add(MessageEvent, message=TextMessage)
 def SHEET(event):
-    if '遠藤' in event.message.text
+    if '遠藤' in event.message.text:
         SP_SHEET = '遠藤'
-    elif '長崎' in event.message.text
+    elif '長崎' in event.message.text:
         SP_SHEET = '長崎'
-    elif '戸部' in event.message.text
+    elif '戸部' in event.message.text:
         SP_SHEET = '戸部'
-    elif '荒井' in event.message.text
+    elif '荒井' in event.message.text:
         SP_SHEET = '荒井'
     return SP_SHEET
 
