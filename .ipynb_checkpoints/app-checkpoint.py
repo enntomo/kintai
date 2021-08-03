@@ -279,7 +279,7 @@ def auth_miya():
         'https://www.googleapis.com/auth/drive'
     ]
 
-    SP_SHEET_KEY = '1rMLs8CJEwmHDhiXa7pu3HahivIkhbzq-wioqtQ8Zs4E'
+    SP_SHEET_KEY = '1jVzFy_PXkRY0e4SimVT9XmScpTuCSn7LgHf0-U-R1_Q'
     SP_SHEET = '宮川'
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
@@ -405,7 +405,7 @@ def auth_izu():
         'https://www.googleapis.com/auth/drive'
     ]
 
-    SP_SHEET_KEY = '1d2tnZZlt0nN4Y86A3HqaECyk-c5qr1f-C99jy7UnanU'
+    SP_SHEET_KEY = '1rMLs8CJEwmHDhiXa7pu3HahivIkhbzq-wioqtQ8Zs4E'
     SP_SHEET = '泉田'
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
