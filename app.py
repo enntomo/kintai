@@ -25,15 +25,24 @@ def auth():
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
     ]
+    if '遠藤' in event.message.text:
+        SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
+        SP_SHEET = '遠藤'
 
-    SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
-    SP_SHEET = '遠藤'
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
+        gc = gspread.authorize(credentials)
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
-    gc = gspread.authorize(credentials)
+        worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
+        return worksheet
+    elif '長崎' in event.message.text
+        SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
+        SP_SHEET = '長崎'
 
-    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
-    return worksheet
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
+        gc = gspread.authorize(credentials)
+
+        worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
+        return worksheet
 
 
 #出勤
