@@ -110,17 +110,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text='退勤しました！'))
         
-    elif '出勤' in event.message.text and '長崎' in event.message.text:
-        punch_in()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='出勤完了しました！'))
-        
-    elif '退勤' in event.message.text and '長崎' in event.message.text:
-        punch_out()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='退勤しました！'))
+   
     else: pass
         
 if __name__ == "__main__":
