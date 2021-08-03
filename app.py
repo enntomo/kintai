@@ -28,6 +28,7 @@ def SHEET(event):
         SP_SHEET = '戸部'
     elif '荒井' in event.message.text
         SP_SHEET = '荒井'
+    return SP_SHEET
 
 def auth():
     SP_CREDENTIAL_FILE = 'job.json'
