@@ -109,6 +109,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if '出勤' in event.message.text:
+        punch_in()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='出勤完了しました！'))
         if '遠藤' in event.message.text:
             SHEET = '遠藤'
         elif '長崎' in event.message.text:
@@ -117,11 +121,7 @@ def handle_message(event):
             SHEET = '戸部'
         elif '荒井' in event.message.text:
             SHEET = '荒井'
-    
-        punch_in()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='出勤完了しました！'))
+            
     elif '退勤' in event.message.text:
         punch_out()
         line_bot_api.reply_message(
