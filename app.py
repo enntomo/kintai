@@ -27,7 +27,7 @@ def auth():
     ]
 
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
-    SP_SHEET = 'timesheet'
+   
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
@@ -98,12 +98,14 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if '出勤' in event.message.text:
+        SP_SHEET = event.message.text[0]
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='出勤完了しました！'))
        
     elif '退勤' in event.message.text:
+        SP_SHEET = event.message.text[0]
         punch_out()
         line_bot_api.reply_message(
             event.reply_token,
