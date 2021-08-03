@@ -98,13 +98,13 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if '出勤' and '遠藤'in event.message.text:
+    if '出勤' & '遠藤'in event.message.text:
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='出勤完了しました！'))
        
-    elif '退勤' and '遠藤'in event.message.text:
+    elif '退勤' & '遠藤'in event.message.text:
         punch_out()
         line_bot_api.reply_message(
             event.reply_token,
