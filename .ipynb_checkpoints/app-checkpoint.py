@@ -102,15 +102,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='出勤完了しました！'))
-        if '遠藤' in event.message.text:
-            SHEET = '遠藤'
-        elif '長崎' in event.message.text:
-            SHEET = '長崎'
-        elif '戸部' in event.message.text:
-            SHEET = '戸部'
-        elif '荒井' in event.message.text:
-            SHEET = '荒井'
-            
+       
     elif '退勤' in event.message.text:
         punch_out()
         line_bot_api.reply_message(
