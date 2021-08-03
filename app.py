@@ -20,7 +20,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 def auth():
-    SP_CREDENTIAL_FILE = 'job.json'
+    SP_CREDENTIAL_FILE = 'secret.json'
     SP_SCOPE = [
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
@@ -34,6 +34,29 @@ def auth():
 
     worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
     return worksheet
+
+# 出勤
+def punch_in():
+    worksheet = auth()
+    df = pd.DataFrame(worksheet.get_all_records())
+
+    timestamp = datetime.now(JST)
+    date = timestamp.strftime('%Y/%m/%d')
+    punch_in = timestamp.strftime('%H:%M')
+
+    df = df.append({'日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
+    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+
+# 退勤
+def punch_out():
+    worksheet = auth()
+    df = pd.DataFrame(worksheet.get_all_records())
+
+    timestamp = datetime.now(JST)
+    punch_out = timestamp.strftime('%H:%M')
+
+    df.iloc[-1, 2] = punch_out
+    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
 
 #出勤
