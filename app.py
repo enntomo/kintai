@@ -25,7 +25,7 @@ def auth():
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
     ]
-
+    SP_SHEET = '遠藤'
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
    
 
@@ -98,28 +98,12 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if '出勤' in event.message.text:
-        if '遠藤' in event.message.text:
-            SP_SHEET = '遠藤'
-        elif'長崎' in event.message.text:
-            SP_SHEET = '長崎'
-        elif'戸部' in event.message.text:
-            SP_SHEET = '戸部'
-        elif'荒井' in event.message.text:
-            SP_SHEET = '荒井'
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='出勤完了しました！'))
        
     elif '退勤' in event.message.text:
-        if '遠藤' in event.message.text:
-            SP_SHEET = '遠藤'
-        elif'長崎' in event.message.text:
-            SP_SHEET = '長崎'
-        elif'戸部' in event.message.text:
-            SP_SHEET = '戸部'
-        elif'荒井' in event.message.text:
-            SP_SHEET = '荒井'
         punch_out()
         line_bot_api.reply_message(
             event.reply_token,
