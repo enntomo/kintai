@@ -49,7 +49,7 @@ def punch_in():
     date = timestamp.strftime('%Y/%m/%d')
     punch_in = timestamp.strftime('%H:%M')
 
-    df = df.append({'日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
+    df = df.append({'名前': name, '日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
     print('出勤完了しました！')
