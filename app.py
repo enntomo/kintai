@@ -43,7 +43,8 @@ def auth():
 def punch_in():
     worksheet =auth()
     df = pd.DataFrame(worksheet.get_all_records())
-
+    
+    name = atd_name
     timestamp = datetime.now()
     date = timestamp.strftime('%Y/%m/%d')
     punch_in = timestamp.strftime('%H:%M')
@@ -104,6 +105,7 @@ def handle_message(event):
     attendance =  event.message.text
     atd = attendance.split()
     
+    global atd_name
     atd_name = atd[0]
     
     if '出勤' in atd:
