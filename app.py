@@ -103,17 +103,20 @@ def callback():
 def handle_message(event):
     attendance =  event.message.text
     atd = attendance.split()
+    
+    atd_name = atd[0]
+    
     if '出勤' in atd:
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='出勤完了しました！'))
+            TextSendMessage(text= atd_name + '出勤完了しました！'))
        
     elif '退勤' in atd:
         punch_out()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='退勤しました！'))
+            TextSendMessage(text= atd_name + '退勤しました！'))
     else: pass
         
 if __name__ == "__main__":
