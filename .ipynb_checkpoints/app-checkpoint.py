@@ -101,13 +101,15 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if '出勤' in event.message.text :
+    attendance =  event.message.text
+    atd = attendance.split()
+    if '出勤' in atd:
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='出勤完了しました！'))
        
-    elif '退勤' in event.message.text:
+    elif '退勤' in atd:
         punch_out()
         line_bot_api.reply_message(
             event.reply_token,
