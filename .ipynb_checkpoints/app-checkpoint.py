@@ -61,8 +61,8 @@ def punch_out():
     timestamp = datetime.now()
     punch_out = timestamp.strftime('%H:%M')
     
-    df_name = df[df['名前'].str.contains(name)]
-    df_name.iloc[-1, 3] = punch_out
+    df[df['名前'].str.contains(name)] 
+    df.iloc[-1, 3] = punch_out
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
     print('退勤しました！')
 
