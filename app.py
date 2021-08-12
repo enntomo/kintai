@@ -25,10 +25,13 @@ def auth():
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
     ]
-
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
-    SP_SHEET = 'timesheet'
-
+    
+    if atd_name == '遠藤'
+        SP_SHEET = '遠藤'
+    elif atd_name == '長崎'
+        SP_SHEET = '長崎'
+        
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
 
@@ -44,12 +47,11 @@ def punch_in():
     worksheet =auth()
     df = pd.DataFrame(worksheet.get_all_records())
     
-    name = atd_name
     timestamp = datetime.now()
     date = timestamp.strftime('%Y/%m/%d')
     punch_in = timestamp.strftime('%H:%M')
 
-    df = df.append({'名前': name, '日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
+    df = df.append({'名前': atd_name, '日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
     print('出勤完了しました！')
@@ -60,14 +62,16 @@ def punch_out():
     
     timestamp = datetime.now()
     punch_out = timestamp.strftime('%H:%M')
+    df.iloc[-1, 3] = punch_out
     
-
-    df_name = df[(df['遠藤'] == atd_name) & (df['退勤時間'] == '00:00')].replace({'退勤時間': {'00:00': punch_out}})
-    df_name = df[(df['長崎'] == atd_name) & (df['退勤時間'] == '00:00')].replace({'退勤時間': {'00:00': punch_out}})
-   
-   
+#     df_name = df[df['名前'].str.contains(atd_name)].copy()
+#     df_name.iloc[-1, 3] = punch_out
     
-    worksheet.update([df_name.columns.values.tolist()] + df_name.values.tolist())
+#     df_name = df[(df['遠藤'] == atd_name) & (df['退勤時間'] == '00:00')].replace({'退勤時間': {'00:00': punch_out}})
+#     df_name = df[(df['名前'] == atd_name) & (df['退勤時間'] == '00:00')].replace({'退勤時間': {'00:00': punch_out}})
+    
+    
+    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
     print('退勤しました！')
 
 
