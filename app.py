@@ -31,12 +31,12 @@ def auth():
     global SP_SHEET
     SP_SHEET = 'timesheet'
 
-    if atd_name == '遠藤':
-        SP_SHEET = '遠藤'
-        name = '遠藤'
-    elif atd_name == '長崎':
-        SP_SHEET = '長崎'
-        name = '長崎'
+#     if atd_name == '遠藤':
+#         SP_SHEET = '遠藤'
+#         name = '遠藤'
+#     elif atd_name == '長崎':
+#         SP_SHEET = '長崎'
+#         name = '長崎'
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
@@ -53,8 +53,8 @@ def punch_in():
     date = timestamp.strftime('%Y/%m/%d')
     punch_in = timestamp.strftime('%H:%M')
 
-    global name
-    name = 'unknown'
+#     global name
+#     name = 'unknown'
     df = df.append({'名前': name, '日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
