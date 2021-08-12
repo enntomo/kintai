@@ -62,7 +62,7 @@ def punch_out():
     punch_out = timestamp.strftime('%H:%M')
     
 #     df_name = df[df['名前'].str.contains(atd_name)].copy()
-    df_name.iloc[-1, 3] = punch_out
+    df.iloc[-1, 3] = punch_out
     
 #     df_name = df[(df['遠藤'] == atd_name) & (df['退勤時間'] == '00:00')].replace({'退勤時間': {'00:00': punch_out}})
 #     df_name = df[(df['名前'] == atd_name) & (df['退勤時間'] == '00:00')].replace({'退勤時間': {'00:00': punch_out}})
