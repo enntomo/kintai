@@ -35,7 +35,32 @@ def auth():
         SP_SHEET = '遠藤'
     elif atd_name == '長崎':
         SP_SHEET = '長崎'
+    elif atd_name == '荒井':
+        SP_SHEET = '荒井'
+    elif atd_name == '山田':
+            SP_SHEET = '山田'
+    elif atd_name == '山口':
+            SP_SHEET = '山口'
+    elif atd_name == '戸部':
+            SP_SHEET = '戸部'        
+    elif atd_name == '泉田':
+            SP_SHEET = '泉田'        
+    elif atd_name == '小泉':
+            SP_SHEET = '小泉'        
+    elif atd_name == '松岡':
+            SP_SHEET = '松岡'        
+    elif atd_name == '丁':
+            SP_SHEET = '丁'        
+    elif atd_name == '相澤':
+            SP_SHEET = '相澤'        
+    elif atd_name == '志村':
+            SP_SHEET = '志村'
+    elif atd_name == '宮川':
+            SP_SHEET = '宮川'        
 
+        
+        
+        
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
 
@@ -67,14 +92,8 @@ def punch_out():
     
     timestamp = datetime.now()
     punch_out = timestamp.strftime('%H:%M')
-    
-#     df_name = df[df['名前'].str.contains(atd_name)].copy()
     df.iloc[-1, 3] = punch_out
-    
-#     df_name = df[(df['遠藤'] == atd_name) & (df['退勤時間'] == '00:00')].replace({'退勤時間': {'00:00': punch_out}})
-#     df_name = df[(df['名前'] == atd_name) & (df['退勤時間'] == '00:00')].replace({'退勤時間': {'00:00': punch_out}})
-    
-    
+        
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
     print('退勤しました！')
 
