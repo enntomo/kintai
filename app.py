@@ -27,7 +27,14 @@ def auth():
     ]
 
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
+    
+    global SP_SHEET
     SP_SHEET = 'timesheet'
+
+    if atd_name == '遠藤':
+        SP_SHEET = '遠藤'
+    elif atd_name == '長崎':
+        SP_SHEET = '長崎'
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
