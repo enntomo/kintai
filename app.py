@@ -19,6 +19,26 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 
+def auth():
+    SP_CREDENTIAL_FILE = 'job.json'
+    SP_SCOPE = [
+        'https://spreadsheets.google.com/feeds',
+        'https://www.googleapis.com/auth/drive'
+    ]
+    SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
+    
+    if atd_name == '遠藤'
+        SP_SHEET = '遠藤'
+    elif atd_name == '長崎'
+        SP_SHEET = '長崎'
+        
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
+    gc = gspread.authorize(credentials)
+
+    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
+    return worksheet
+
+
 app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = 'xaD08TJKexbs26kL74LkJWmkCYPbhI+FusQz9Nt2sl4tFxxSeHRNUf2Y2/Y8dUpC896jf216rsAgA0y5A8oiITm8Ze7LLtGZ8/IRhHHYL/k3+jepuf28lDMlwFEmkrb/v3at7UFRgHeiZZ2Rw69iSQdB04t89/1O/w1cDnyilFU='
@@ -112,24 +132,6 @@ def punch_out():
     
     
 
-def auth():
-    SP_CREDENTIAL_FILE = 'job.json'
-    SP_SCOPE = [
-        'https://spreadsheets.google.com/feeds',
-        'https://www.googleapis.com/auth/drive'
-    ]
-    SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
-    
-    if atd_name == '遠藤'
-        SP_SHEET = '遠藤'
-    elif atd_name == '長崎'
-        SP_SHEET = '長崎'
-        
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
-    gc = gspread.authorize(credentials)
-
-    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
-    return worksheet
 
 
 
