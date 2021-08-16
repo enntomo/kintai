@@ -33,8 +33,8 @@ def auth():
 
     if atd_name == '遠藤':
         SP_SHEET = '遠藤'
-    elif atd_name == '長崎':
-        SP_SHEET = '長崎'
+    elif atd_name == '長﨑':
+        SP_SHEET = '長﨑'
     elif atd_name == '荒井':
         SP_SHEET = '荒井'
     elif atd_name == '山田':
@@ -102,8 +102,8 @@ def punch_out():
 
 app = Flask(__name__)
 
-YOUR_CHANNEL_ACCESS_TOKEN = 'xaD08TJKexbs26kL74LkJWmkCYPbhI+FusQz9Nt2sl4tFxxSeHRNUf2Y2/Y8dUpC896jf216rsAgA0y5A8oiITm8Ze7LLtGZ8/IRhHHYL/k3+jepuf28lDMlwFEmkrb/v3at7UFRgHeiZZ2Rw69iSQdB04t89/1O/w1cDnyilFU='
-YOUR_CHANNEL_SECRET = '734eb0b218d1ad81df88d46495d05ba0'
+YOUR_CHANNEL_ACCESS_TOKEN = 'SoGDQ4I5JV4V2IPLMQjsdhCBTXnhir3EZtMy4sDkdMmAnSHuCtY4tYz6y36Rbni1iRQUR0jzrUJq65LxD8lc7gbatf8mk2es8GwhIsWasTmDClZl7nsWNw9mrWJEi659+3AB+tJDnH1RsUnXaa4U6QdB04t89/1O/w1cDnyilFU='
+YOUR_CHANNEL_SECRET = '0aceaab59dbadc0b3a5fbd341082185d'
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)

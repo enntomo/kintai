@@ -33,8 +33,8 @@ def auth():
 
     if atd_name == '遠藤':
         SP_SHEET = '遠藤'
-    elif atd_name == '長崎':
-        SP_SHEET = '長崎'
+    elif atd_name == '長﨑':
+        SP_SHEET = '長﨑'
     elif atd_name == '荒井':
         SP_SHEET = '荒井'
     elif atd_name == '山田':
