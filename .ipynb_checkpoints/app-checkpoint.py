@@ -144,7 +144,7 @@ def handle_message(event):
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text= atd_name + '出勤完了！今日も一日頑張りましょう！'))
+            TextSendMessage(text= atd_name + 'さん出勤完了です！今日も一日頑張りましょう！'))
        
     elif '退勤' in atd:
         punch_out()
