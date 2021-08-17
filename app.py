@@ -41,8 +41,8 @@ def auth():
             SP_SHEET = '山田'
     elif atd_name == '山口':
             SP_SHEET = '山口'
-    elif atd_name == '戸部':
-            SP_SHEET = '戸部'        
+    elif atd_name == '戸辺':
+            SP_SHEET = '戸辺'        
     elif atd_name == '泉田':
             SP_SHEET = '泉田'        
     elif atd_name == '小泉':
@@ -144,13 +144,13 @@ def handle_message(event):
         punch_in()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text= atd_name + '出勤完了しました！'))
+            TextSendMessage(text= atd_name + '出勤完了！今日も一日頑張りましょう！'))
        
     elif '退勤' in atd:
         punch_out()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text= atd_name + '退勤しました！'))
+            TextSendMessage(text= '退勤完了！' + atd_name + 'さんお疲れ様でした！'))
     else: pass
         
 if __name__ == "__main__":
