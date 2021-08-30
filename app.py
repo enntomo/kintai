@@ -25,16 +25,18 @@ def auth():
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
     ]
-
+    global SP_SHEET_KEY
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
     
+    global gc
+    gc = gspread.authorize(credentials)
     global SP_SHEET
     SP_SHEET = atd_name
 
         
         
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
-    gc = gspread.authorize(credentials)
+   
 
     worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
     return worksheet
@@ -133,6 +135,9 @@ def handle_message(event):
         
     elif '新規作成' in atd:
         new()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= atd_name + 'さん新規作成完了！'))
     else: pass
 
 if __name__ == "__main__":
