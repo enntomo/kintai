@@ -18,6 +18,7 @@ import gspread
 
 from oauth2client.service_account import ServiceAccountCredentials
 
+SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
 
 def auth():
     SP_CREDENTIAL_FILE = 'job.json'
@@ -25,19 +26,16 @@ def auth():
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
     ]
-    global SP_SHEET_KEY
-    SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
+#     global SP_SHEET_KEY
     
-    global gc
-    gc = gspread.authorize(credentials)
+#     global gc
+    
     global SP_SHEET
     SP_SHEET = atd_name
-
-        
-        
+    
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
+    gc = gspread.authorize(credentials)
    
-
     worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
     return worksheet
 
@@ -71,14 +69,14 @@ def punch_out():
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
     print('退勤しました！')
 
-# def new():
-#     worksheet = gc.open_by_key(SP_SHEET_KEY).add_worksheet(title=atd_name, rows=100, cols=20)
-#     datas = [
-#       ['名前', '日付', '出勤時間', '退勤時間'],
-#     ]
+def new():
+    worksheet = gc.open_by_key(SP_SHEET_KEY).add_worksheet(title=atd_name, rows=100, cols=20)
+    datas = [
+      ['名前', '日付', '出勤時間', '退勤時間'],
+    ]
 
-#     for row_data in datas:
-#         worksheet.append_row(row_data)
+    for row_data in datas:
+        worksheet.append_row(row_data)
 
 
 app = Flask(__name__)
