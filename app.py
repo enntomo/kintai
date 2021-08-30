@@ -130,7 +130,7 @@ def handle_message(event):
             TextSendMessage(
                  worksheet =auth()
                  df = pd.DataFrame(worksheet.get_all_records())
-                 text= atd_name + (df.iloc[:, 1:]))
+                 text= atd_name + (df.iloc[:, 1:]).astype(str))
                             )
     else: pass
         
