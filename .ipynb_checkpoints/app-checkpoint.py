@@ -31,34 +31,6 @@ def auth():
     global SP_SHEET
     SP_SHEET = atd_name
 
-#     if atd_name == '遠藤':
-#         SP_SHEET = '遠藤'
-#     elif atd_name == '長﨑':
-#         SP_SHEET = '長﨑'
-#     elif atd_name == '荒井':
-#         SP_SHEET = '荒井'
-#     elif atd_name == '山田':
-#             SP_SHEET = '山田'
-#     elif atd_name == '山口':
-#             SP_SHEET = '山口'
-#     elif atd_name == '戸辺':
-#             SP_SHEET = '戸辺'        
-#     elif atd_name == '泉田':
-#             SP_SHEET = '泉田'        
-#     elif atd_name == '小泉':
-#             SP_SHEET = '小泉'        
-#     elif atd_name == '松岡':
-#             SP_SHEET = '松岡'        
-#     elif atd_name == '丁':
-#             SP_SHEET = '丁'        
-#     elif atd_name == '相澤':
-#             SP_SHEET = '相澤'        
-#     elif atd_name == '志村':
-#             SP_SHEET = '志村'
-#     elif atd_name == '宮川':
-#             SP_SHEET = '宮川'        
-
-        
         
         
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
@@ -155,7 +127,7 @@ def handle_message(event):
     elif '記録確認' in atd:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text= atd_name + df.iloc[:, 1:]))
+            TextSendMessage(text= atd_name + (df.iloc[:, 1:])))
     else: pass
         
 if __name__ == "__main__":
