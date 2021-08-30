@@ -69,8 +69,15 @@ def punch_out():
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
     print('退勤しました！')
 
+def new():
+    worksheet = gc.open_by_key(SP_SHEET_KEY).add_worksheet(title=atd_name, rows=100, cols=20)
+    datas = [
+      ['名前', '日付', '出勤時間', '退勤時間'],
+    ]
 
-        
+    for row_data in datas:
+        worksheet.append_row(row_data)
+
 
 app = Flask(__name__)
 
@@ -123,8 +130,11 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text= '退勤完了！' + atd_name + 'さんお疲れ様でした！'))
-    else: pass
         
+    elif '新規作成' in atd:
+        new()
+    else: pass
+
 if __name__ == "__main__":
     port = os.getenv("PORT")
     app.run(host="0.0.0.0", port=port)
