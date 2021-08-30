@@ -48,12 +48,11 @@ def punch_in():
     worksheet =auth()
     df = pd.DataFrame(worksheet.get_all_records())
     
-    name = atd_name
     timestamp = datetime.now()
     date = timestamp.strftime('%Y/%m/%d')
     punch_in = timestamp.strftime('%H:%M')
 
-    df = df.append({'名前': name, '日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
+    df = df.append({'名前': atd_name, '日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
     print('出勤完了しました！')
@@ -123,15 +122,6 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text= '退勤完了！' + atd_name + 'さんお疲れ様でした！'))
-        
-    elif '記録確認' in atd:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                 worksheet =auth()
-                 df = pd.DataFrame(worksheet.get_all_records())
-                 text= atd_name + (df.iloc[:, 1:]).astype(str))
-                            )
     else: pass
         
 if __name__ == "__main__":
