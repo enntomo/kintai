@@ -71,14 +71,14 @@ def punch_out():
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
     print('退勤しました！')
 
-def new():
-    worksheet = gc.open_by_key(SP_SHEET_KEY).add_worksheet(title=atd_name, rows=100, cols=20)
-    datas = [
-      ['名前', '日付', '出勤時間', '退勤時間'],
-    ]
+# def new():
+#     worksheet = gc.open_by_key(SP_SHEET_KEY).add_worksheet(title=atd_name, rows=100, cols=20)
+#     datas = [
+#       ['名前', '日付', '出勤時間', '退勤時間'],
+#     ]
 
-    for row_data in datas:
-        worksheet.append_row(row_data)
+#     for row_data in datas:
+#         worksheet.append_row(row_data)
 
 
 app = Flask(__name__)
