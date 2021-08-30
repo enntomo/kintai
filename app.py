@@ -132,7 +132,6 @@ def handle_message(event):
             TextSendMessage(text= '退勤完了！' + atd_name + 'さんお疲れ様でした！'))
         
     elif '新規作成' in atd:
-        new()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text= atd_name + 'さん新規作成完了！'))
