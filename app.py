@@ -125,6 +125,8 @@ def handle_message(event):
             TextSendMessage(text= '退勤完了！' + atd_name + 'さんお疲れ様でした！'))
         
     elif '記録確認' in atd:
+        worksheet =auth()
+        df = pd.DataFrame(worksheet.get_all_records())
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text= atd_name + (df.iloc[:, 1:])))
