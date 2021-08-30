@@ -29,9 +29,20 @@ def auth():
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
     
     global SP_SHEET
-    SP_SHEET = atd_name
+    
+    if name != SP_SHEET:
+            worksheet = gc.open_by_key(SP_SHEET_KEY).add_worksheet(title=atd_name, rows=100, cols=20)
+            datas = [
+              ['名前', '日付', '出勤時間', '退勤時間'],
+            ]
 
-        
+            for row_data in datas:
+                worksheet.append_row(row_data)
+    else:
+        SP_SHEET = atd_name
+        worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
+
+    
         
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
@@ -47,6 +58,7 @@ def auth():
 def punch_in():
     worksheet =auth()
     df = pd.DataFrame(worksheet.get_all_records())
+    
     
     timestamp = datetime.now()
     date = timestamp.strftime('%Y/%m/%d')

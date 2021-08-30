@@ -29,36 +29,8 @@ def auth():
     SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
     
     global SP_SHEET
-    SP_SHEET = 'timesheet'
+    SP_SHEET = atd_name
 
-    if atd_name == '遠藤':
-        SP_SHEET = '遠藤'
-    elif atd_name == '長﨑':
-        SP_SHEET = '長﨑'
-    elif atd_name == '荒井':
-        SP_SHEET = '荒井'
-    elif atd_name == '山田':
-            SP_SHEET = '山田'
-    elif atd_name == '山口':
-            SP_SHEET = '山口'
-    elif atd_name == '戸辺':
-            SP_SHEET = '戸辺'        
-    elif atd_name == '泉田':
-            SP_SHEET = '泉田'        
-    elif atd_name == '小泉':
-            SP_SHEET = '小泉'        
-    elif atd_name == '松岡':
-            SP_SHEET = '松岡'        
-    elif atd_name == '丁':
-            SP_SHEET = '丁'        
-    elif atd_name == '相澤':
-            SP_SHEET = '相澤'        
-    elif atd_name == '志村':
-            SP_SHEET = '志村'
-    elif atd_name == '宮川':
-            SP_SHEET = '宮川'        
-
-        
         
         
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
@@ -76,12 +48,12 @@ def punch_in():
     worksheet =auth()
     df = pd.DataFrame(worksheet.get_all_records())
     
-    name = atd_name
+    
     timestamp = datetime.now()
     date = timestamp.strftime('%Y/%m/%d')
     punch_in = timestamp.strftime('%H:%M')
 
-    df = df.append({'名前': name, '日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
+    df = df.append({'名前': atd_name, '日付': date, '出勤時間': punch_in, '退勤時間': '00:00'}, ignore_index=True)
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
     print('出勤完了しました！')
