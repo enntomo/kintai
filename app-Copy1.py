@@ -20,13 +20,13 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 def auth():
-    SP_CREDENTIAL_FILE = 'job.json'
+    SP_CREDENTIAL_FILE = ''
     SP_SCOPE = [
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
     ]
 
-    SP_SHEET_KEY = '1-YncoBYoSOqfSXP_W7bAuDJ-9MdtiWk6rTCgr5oIeBc'
+    SP_SHEET_KEY = 'YOUR_SP_SHEET_KEY'
     
     global SP_SHEET
     SP_SHEET = atd_name
@@ -74,8 +74,8 @@ def punch_out():
 
 app = Flask(__name__)
 
-YOUR_CHANNEL_ACCESS_TOKEN = 'SoGDQ4I5JV4V2IPLMQjsdhCBTXnhir3EZtMy4sDkdMmAnSHuCtY4tYz6y36Rbni1iRQUR0jzrUJq65LxD8lc7gbatf8mk2es8GwhIsWasTmDClZl7nsWNw9mrWJEi659+3AB+tJDnH1RsUnXaa4U6QdB04t89/1O/w1cDnyilFU='
-YOUR_CHANNEL_SECRET = '0aceaab59dbadc0b3a5fbd341082185d'
+YOUR_CHANNEL_ACCESS_TOKEN = 'YOUR_CHANNEL_ACCESS_TOKEN'
+YOUR_CHANNEL_SECRET = 'YOUR_CHANNEL_SECRET'
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
